@@ -9,7 +9,9 @@ ENV JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
     LANG=en_GB.UTF-8 \
     LANGUAGE=en_GB.UTF-8
 RUN apk update \
-    && apk --no-cache add tzdata openjdk8 busybox-extras openssh-server wget unzip tar ca-certificates procps procps \
+    && apk --no-cache add tzdata openjdk8 busybox-extras openssh-server openssh-client wget unzip tar ca-certificates procps \
+    && cp /usr/share/zoneinfo/America/New_York /etc/localtime \
+    && echo "America/New_York" > /etc/timezone \
     && echo 'root:alpinepassword' | chpasswd \
     && sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config \
     && /usr/bin/ssh-keygen -A
